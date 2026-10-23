@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>For Zafer 💙</title>
+  <meta name="description" content="How well do you know us? A little quiz from Hyderabad to Muscat." />
+  <meta name="theme-color" content="#dff1ff" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1" />
+</head>
+<body>
+  <div class="bg-float" id="bgFloat" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <!-- ============ 1. INTRO ============ -->
+  <main class="screen" id="introScreen">
+    <div class="card">
+      <p class="eyebrow" id="greeting"></p>
+      <h1 class="title">How well do you know <span class="script">us?</span></h1>
+
+      <div class="route" aria-label="Where we both are">
+        <div class="city">
+          <span class="city__flag" id="myFlag"></span>
+          <strong id="myCity"></strong>
+          <span class="city__clock" id="myClock">--:--</span>
+        </div>
+        <div class="route__line">
+          <svg viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M6 50 Q100 -10 194 50" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="6 7" stroke-linecap="round" />
+          </svg>
+          <span class="route__plane" aria-hidden="true">✈️</span>
+          <span class="route__km" id="distance">— km</span>
+        </div>
+        <div class="city">
+          <span class="city__flag" id="theirFlag"></span>
+          <strong id="theirCity"></strong>
+          <span class="city__clock" id="theirClock">--:--</span>
+        </div>
+      </div>
+
+      <p class="intro__text" id="introText"></p>
+      <button class="btn btn--primary btn--big" id="startBtn" type="button">Start the quiz 💙</button>
+      <p class="small" id="introSmall"></p>
+      <p class="privacy" id="privacy" hidden></p>
+    </div>
+  </main>
+
+  <!-- ============ 2. QUIZ ============ -->
+  <section class="screen" id="quizScreen" hidden>
+    <div class="card">
+      <div class="quiz__top">
+        <span id="qCount">Question 1</span>
+        <span class="quiz__score" id="qScore">💙 0</span>
+      </div>
+      <div class="progress" aria-hidden="true"><span id="qProgress"></span></div>
+      <div class="timer" id="timerWrap" aria-hidden="true"><span id="timerBar"></span><b id="timerNum"></b></div>
+
+      <div class="quiz__body" id="qBody">
+        <div class="quiz__emoji" id="qEmoji">💭</div>
+        <h2 class="quiz__question" id="qText"></h2>
+        <div class="options" id="qOptions" role="group" aria-label="Answers"></div>
+        <button class="hint-btn" id="hintBtn" type="button">💡 Need a hint?</button>
+        <p class="hint-text" id="hintText" aria-live="polite"></p>
+        <p class="feedback" id="qFeedback" aria-live="polite"></p>
+      </div>
+
+      <button class="btn btn--primary" id="nextBtn" type="button" hidden>Next →</button>
+    </div>
+  </section>
+
+  <!-- ============ 3. RESULT + THE BIG QUESTION ============ -->
+  <section class="screen" id="askScreen" hidden>
+    <div class="card">
+      <p class="eyebrow">Your results are in… 📋</p>
+      <div class="meter">
+        <div class="meter__label"><span id="meterName">Love-o-meter</span><strong id="meterPct">0%</strong></div>
+        <div class="meter__bar"><span id="meterFill"></span></div>
+        <p class="meter__note" id="meterNote"></p>
+      </div>
+
+      <h2 class="ask__q" id="askQ"></h2>
+      <div class="actions">
+        <button class="btn btn--yes" id="yesBtn" type="button">YES! 💙</button>
+      </div>
+      <button class="linkish" id="thinkBtn" type="button">Let me think 🤔</button>
+      <div class="think" id="thinkBox" hidden>
+        <p id="thinkText" aria-live="polite"></p>
+        <a class="btn btn--whatsapp" id="waThink" target="_blank" rel="noopener" hidden>Reply on WhatsApp 💬</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. SUCCESS ============ -->
+  <section class="screen" id="successScreen" hidden>
+    <article class="card">
+      <span class="badge" id="badge">💙 Certified 💙</span>
+      <h2 class="success__title" id="successTitle"></h2>
+      <p class="success__message" id="message"></p>
+
+      <!-- Shown only when CONFIG.event is set -->
+      <div id="eventBlock" hidden>
+        <div class="times">
+          <div class="time">
+            <span class="time__flag" id="tMyFlag"></span>
+            <small id="tMyCity"></small>
+            <strong id="tMyTime">--</strong>
+            <em id="tMyDate"></em>
+          </div>
+          <div class="time__heart" aria-hidden="true">💙</div>
+          <div class="time time--them">
+            <span class="time__flag" id="tTheirFlag"></span>
+            <small id="tTheirCity"></small>
+            <strong id="tTheirTime">--</strong>
+            <em id="tTheirDate"></em>
+          </div>
+        </div>
+        <div class="countdown" id="countdown">
+          <span class="countdown__label" id="cdLabel">Starts in</span>
+          <div class="countdown__digits" id="cdDigits">
+            <div><b id="cdD">0</b><small>days</small></div>
+            <div><b id="cdH">00</b><small>hrs</small></div>
+            <div><b id="cdM">00</b><small>min</small></div>
+            <div><b id="cdS">00</b><small>sec</small></div>
+          </div>
+        </div>
+        <ul class="details" id="details"></ul>
+      </div>
+
+      <p class="scoreline" id="scoreline"></p>
+
+      <div class="success__actions">
+        <button class="btn btn--primary" id="calendarBtn" type="button" hidden>Add to calendar 📅</button>
+        <a class="btn btn--whatsapp" id="waBtn" target="_blank" rel="noopener" hidden>Send my answers on WhatsApp 💬</a>
+        <button class="btn btn--ghost" id="againBtn" type="button">More confetti 🎉</button>
+      </div>
+      <p class="signoff" id="signoff"></p>
+    </article>
+  </section>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>
